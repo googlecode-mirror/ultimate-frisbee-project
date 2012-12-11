@@ -6,23 +6,69 @@ var tt_pom = 0;
 var kde = 0;
 var nakres = 0;
 var nakresPohybu = 0; 
+var limit = 0;
 
 function animation()
 {
+  
+  this.hraci2 = [];
  
- 
- this.PridajHraca= function(x,y,t,color){
- hrac= new Hrac(x,y,t,hraci.length,color);
+ this.PridajHraca= function(x,y,t,color,inter){
+ hrac= new Hrac(x,y,t,hraci.length,color,inter);
  hraci.push(hrac);
  }
  
- this.skuska = function(){
-   var text = "12000" + '\n\n';
-   text += "blue" + '\n';
-   for(var i in hraci){
-   for(var j in hraci[i].points) {
-    text += hraci[i].points[j].x + ' ' + hraci[i].points[j].y + ' ' + hraci[i].points[j].t  + '\n';  
+ this.load = function(file){
+ alert("load");
+alert(file);
+ hraci2 = file.split("##");
+    this.hraci2 = [];
+    limit = hraci2[0];
+    alert(this.limit);
+    for(var i in hraci2)
+    {
+       if(i>0)
+      {
+        lines = hraci2[i].split("#");
+        alert(lines);
+        hrac2 = new Hrac();
+        hrac2.farba = lines[0];
+        hrac2.interval = parseInt(lines[1]);
+        alert(hrac2.farba);
+        hrac2.id = i-1;
+        
+         for(var j in lines)
+        {
+          if(j>1)
+          {
+            data = lines[j].split(" ");
+            if(!isNaN(data[0]) && !isNaN(data[1]) && !isNaN(data[2])){
+            alert(parseInt(data[2]));
+            	hrac2.addPoint(parseInt(data[0]), parseInt(data[1]), parseInt(data[2]));
+            	//this.field.spanPoint(parseInt(data[0]), parseInt(data[1]));
+            }
+          }
+         }
+        hraci.push(hrac2);
+      }
     }
+    
+    animation.draw();
+    animation.run();
+ }
+ 
+ this.skuska = function(){
+   var text = limit + '##';
+   
+   for(var i in hraci){
+   text += hraci[i].farba+ '#' ;
+   text += hraci[i].interval + '#';
+   for(var j in hraci[i].points) {
+    text += hraci[i].points[j].x + ' ' + hraci[i].points[j].y + ' ' + hraci[i].points[j].t + '#' ;  
+    }
+      if(i != hraci.length -1){ 
+        text+= '#';             
+      }
    }
    
    
@@ -50,7 +96,9 @@ function animation()
     }    
  }
  
- this.hrac = function(color){
+ this.hrac = function(color,cislo){
+  limit = cislo;
+  alert(cislo);
     $('#pridavanie').show();
     //vymazanie premennych
     $('#x-os').val('');
@@ -58,18 +106,24 @@ function animation()
         $('#xx').val('');
         $('#yy').val('');
         $('#tt').val('');
-      
+        $('#dlzkaPohybu').val('');
+     
      kde = 0; 
     $('#tlacidlo').html('POTVRD POZICIU');
     
     $('#tlacidlo').unbind('click').click(function(){
+    
+    if(($('#dlzkaPohybu').val() > 0) && ($('#dlzkaPohybu').val() <= limit)){
       animation.pohyb(color);
+     }else{
+       alert("Zadaj spravne dlzku pohybu, musi byt mensia ako dlzka animacie!" + limit);
+     } 
     });
   }
   
   this.pohyb = function(color){
     
-    animation.PridajHraca( $('#x-os').val(), $('#y-os').val(),$('#x-os').val(),color);  
+    animation.PridajHraca( $('#x-os').val(), $('#y-os').val(),$('#x-os').val(),color,$('#dlzkaPohybu').val());  
     
     hraci[hraci.length -1].addPoint($('#x-os').val(), $('#y-os').val(),0);
           
@@ -176,8 +230,9 @@ function animation()
    this.run = function(){
       for(var i in hraci)
     {
-      hraci[i].animate(0,0,hraci[i].id);
+      hraci[i].animate(0,0,limit);
     }
+   
    }
    
  this.kreslenieCiary = function(x1,y1,x2,y2) {

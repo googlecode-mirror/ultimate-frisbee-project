@@ -47,7 +47,7 @@ width: 320px;
   }
 </style>
 </head>
-<body > 
+<body >
 <div id="lavaStrana"> 
 <div id="pridavanie"> 
 
@@ -102,13 +102,16 @@ width: 320px;
 
 
 <div id="loadNastavenia">
-<label for="nacitaj">Nacitaj tento subor: </label>
-<input name="nacitaj" id="nacitaj" type="text" size="15" maxlength="15" />
 <form enctype=".//">
-  Choose a file to upload: <input name="uploadedfile" type="file" /><br />
+  Choose a file to upload: <input name="uploadedfile" id="uploadedfile" type="file" /><br />
 </form>  
 </div> 
- <button id="start">LOAD</button>
+ <button id="load">LOAD</button>  
+ <button id="opatovnyStart">SPUST ZNOVA</button>
+ <span class="readBytesButtons">
+   <button id="start">START</button>
+</span>
+
 
   
 
@@ -125,15 +128,60 @@ $(document).ready(function(){
    alert(document.getElementById("pom").value);
    $("#loadNazvy").append("<p>" + document.getElementById("pom").value + "</p>");
     });
+    
+ $('#load').unbind('click').click(function(){
+  $('#start').show();
+   $('#load').hide();
+  $('#tlacidlo').hide();
+  $('#loadNastavenia').show();
+    
+  //nacitanie   
+    function readBlob(opt_startByte, opt_stopByte) {
+
+    var files = document.getElementById('uploadedfile').files;
+    if (!files.length) {
+      alert('Please select a file!');
+      return;
+    }
+
+    var file = files[0];
+    var start = parseInt(opt_startByte) || 0; 
+    var stop = parseInt(opt_stopByte) || file.size - 1;
+
+    var reader = new FileReader();
+
+    reader.onloadend = function(evt) {
+      if (evt.target.readyState == FileReader.DONE) {
+       animation.load(evt.target.result);
+      }
+    };
+
+    var blob = file.slice(start, stop + 1);
+    reader.readAsBinaryString(blob);
+    
+    
+  }
+  
+  document.querySelector('.readBytesButtons').addEventListener('click', function(evt) {
+    if (evt.target.tagName.toLowerCase() == 'button') {
+      var startByte = evt.target.getAttribute('data-startbyte');
+      var endByte = evt.target.getAttribute('data-endbyte');
+      readBlob(startByte, endByte);
+    }
+  }, false);
+    
+  //nacitanie      
+  });    
 });
 
-   </script> 
+</script> 
    
 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" name="form1" id="form1">
    <h3>Uloz animaciu:</h3>
    <label for="textSave">Ulozit ako:</label>
    <input name="textSave" type="text" size="15" maxlength="15" id="textSave"  value="" /> <br/>
    <input name="pom" id="pom" type="hidden" />
+   <input name="pomLoad" id="pomLoad" type="hidden" />
    <button id="save" name="save">SAVE</button>        
 
     
@@ -147,6 +195,8 @@ $(document).ready(function(){
     fwrite($fh, $stringData);
     fclose($fh);                   
    }
+      
+   
   ?>   
 </form>   
    
