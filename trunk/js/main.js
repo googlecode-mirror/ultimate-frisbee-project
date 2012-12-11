@@ -10,48 +10,60 @@ function Start()
   $('#pridavaniePohybu').hide();
    $('#form1').hide();
    $('#loadNastavenia').hide();
+   $('#start').hide();
+   $('#opatovnyStart').hide();
+   
+   $('#opatovnyStart').unbind('click').click(function(){ 
+    animation.run();
+   });
   
   $('#tlacidlo').html('EDIT').unbind('click').click(function(){
-  $('#start').hide(); 
+  $('#load').hide(); 
   $('#tlacidlo').hide();   
   $('#vyberTimov').show();
    $('#form1').show();
   });
   
-  $('#prvyTim').unbind('click').click(function(){
-  $('#tlacidlo').show();
-  $('#vyberTimov').hide();
-  $('#form1').hide();
+  $('#prvyTim').unbind('click').click(function(){ 
+  if($('#dlzkaCyklu').val() > 1999) {
+      $('#tlacidlo').show();
+      $('#vyberTimov').hide();
+      $('#form1').hide();
   
-    animation.pos();
-    animation.hrac("blue");
+      animation.pos();
+      animation.hrac("blue",$('#dlzkaCyklu').val());  
+    } else {
+     alert("Zadal si zly vstup na dlzke animacie! Dlzka musi byt vacsia ako 2000!")
+    }
   });
   
   $('#druhyTim').unbind('click').click(function(){
-  $('#tlacidlo').show();
-  $('#vyberTimov').hide();
-  $('#form1').hide();
+  if($('#dlzkaCyklu').val() > 1999) {
+      $('#tlacidlo').show();
+      $('#vyberTimov').hide();
+      $('#form1').hide();
   
-    animation.pos();
-    animation.hrac("red");
+      animation.pos();
+      animation.hrac("red",$('#dlzkaCyklu').val());  
+    } else {
+     alert("Zadal si zly vstup na dlzke animacie! Dlzka musi byt vacsia ako 2000!")
+    }
   });
   
-  $('#lopta').unbind('click').click(function(){
-  $('#tlacidlo').show();
-  $('#vyberTimov').hide();
-  $('#form1').hide();
- 
-    animation.pos();
-    animation.hrac("white");
+  $('#lopta').unbind('click').click(function(){ 
+  if($('#dlzkaCyklu').val() > 1999) {
+      $('#tlacidlo').show();
+      $('#vyberTimov').hide();
+      $('#form1').hide();
+  
+      animation.pos();
+      animation.hrac("white",$('#dlzkaCyklu').val());  
+    } else {
+     alert("Zadal si zly vstup na dlzke animacie! Dlzka musi byt vacsia ako 2000!")
+    }
   });
   
-  $('#start').unbind('click').click(function(){
-  $('#start').html('START');
-  $('#tlacidlo').hide();
-  $('#loadNastavenia').show();
-  animation.load();
-  //animation.run();
-  });
+  
 
 }
 
