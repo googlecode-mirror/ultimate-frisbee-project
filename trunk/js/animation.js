@@ -19,22 +19,17 @@ function animation()
  }
  
  this.load = function(file){
- alert("load");
-alert(file);
  hraci2 = file.split("##");
     this.hraci2 = [];
     limit = hraci2[0];
-    alert(this.limit);
     for(var i in hraci2)
     {
        if(i>0)
       {
         lines = hraci2[i].split("#");
-        alert(lines);
         hrac2 = new Hrac();
         hrac2.farba = lines[0];
         hrac2.interval = parseInt(lines[1]);
-        alert(hrac2.farba);
         hrac2.id = i-1;
         
          for(var j in lines)
@@ -43,7 +38,6 @@ alert(file);
           {
             data = lines[j].split(" ");
             if(!isNaN(data[0]) && !isNaN(data[1]) && !isNaN(data[2])){
-            alert(parseInt(data[2]));
             	hrac2.addPoint(parseInt(data[0]), parseInt(data[1]), parseInt(data[2]));
             	//this.field.spanPoint(parseInt(data[0]), parseInt(data[1]));
             }
@@ -98,7 +92,6 @@ alert(file);
  
  this.hrac = function(color,cislo){
   limit = cislo;
-  alert(cislo);
     $('#pridavanie').show();
     //vymazanie premennych
     $('#x-os').val('');
@@ -156,7 +149,6 @@ alert(file);
        
       animation.kreslenieCiary(hraci[hraci.length -1].points[hraci[hraci.length -1].points.length - 2].x,hraci[hraci.length -1].points[hraci[hraci.length -1].points.length - 2].y,hraci[hraci.length -1].points[hraci[hraci.length -1].points.length - 1].x,hraci[hraci.length -1].points[hraci[hraci.length -1].points.length - 1].y);
       
-       alert($('#xx').val() + $('#yy').val() + $('#tt').val());
        xx_pom = $('#xx').val();
        yy_pom = $('#yy').val();
        tt_pom = $('#tt').val();
@@ -186,7 +178,6 @@ alert(file);
      
    } 
    if(kde == 1){
-  // alert(kde);
   if(nakresPohybu == 0) {nakresPohybu = nakresPohybu + 1;}
   var x = e.pageX - e.target.offsetLeft;
   var y = e.pageY - e.target.offsetLeft;
