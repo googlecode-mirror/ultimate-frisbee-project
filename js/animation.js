@@ -165,7 +165,7 @@ alert(file);
   }   
   
   this.pos = function(){     
-   $("#ihrisko").click(function(){
+   $("#ihrisko").unbind('click').click(function(e){
    if(nakres == 1){
     $(".nakres").remove();
    } 
@@ -174,9 +174,10 @@ alert(file);
    }
     
    if(kde == 0){
-  // alert(kde);
-   $('#x-os').val(event.screenX - 419);
-    $('#y-os').val(event.screenY- 72);
+  var x = e.pageX - e.target.offsetLeft;
+  var y = e.pageY - e.target.offsetLeft;
+   $('#x-os').val(x-409);                //event.screenX- 419
+    $('#y-os').val(y-9);                // event.screenY- 72
     if(nakres == 0) {nakres = nakres + 1;}
     $("#ihrisko").append("<div style=\"position:absolute;border:1px solid black;width:5px;height:5px;\" class=\"nakres\"></div> ");
     $('.nakres').css({"background-color":"black"});
@@ -187,8 +188,10 @@ alert(file);
    if(kde == 1){
   // alert(kde);
   if(nakresPohybu == 0) {nakresPohybu = nakresPohybu + 1;}
-    $('#xx').val(event.screenX - 419);
-    $('#yy').val(event.screenY- 72);
+  var x = e.pageX - e.target.offsetLeft;
+  var y = e.pageY - e.target.offsetLeft;
+    $('#xx').val(x-409);
+    $('#yy').val(y-9);
     $("#ihrisko").append("<div style=\"position:absolute;border:1px solid black;width:5px;height:5px;\" class=\"nakresPohybu\"></div> ")
     $('.nakresPohybu').css({"background-color":"black"});
     $('.nakresPohybu').css({"left": $('#xx').val() + "px"});

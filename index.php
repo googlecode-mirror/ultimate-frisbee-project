@@ -29,7 +29,6 @@ margin-left: 400px;
 }
 
 #ihrisko{
-margin: 10px;
 width: 500px;
 height: 600px;
 background-color: rgb(0,204,0); 
