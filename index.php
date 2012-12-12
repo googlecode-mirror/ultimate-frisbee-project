@@ -120,11 +120,10 @@ $(document).ready(function(){
  $('#save').unbind('click').click(function(){
     
       var skuska = animation.skuska();
-    alert(skuska);   
+  
      
    document.getElementById("save").value = skuska;
    document.getElementById("pom").value = document.getElementById("textSave").value + ".txt";
-   alert(document.getElementById("pom").value);
    $("#loadNazvy").append("<p>" + document.getElementById("pom").value + "</p>");
     });
     
