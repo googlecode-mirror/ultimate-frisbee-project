@@ -166,8 +166,8 @@ function animation()
    }
     
    if(kde == 0){
-  var x = e.pageX - e.target.offsetLeft;
-  var y = e.pageY - e.target.offsetLeft;
+  var x = e.pageX;
+  var y = e.pageY;
    $('#x-os').val(x-409);                //event.screenX- 419
     $('#y-os').val(y-9);                // event.screenY- 72
     if(nakres == 0) {nakres = nakres + 1;}
@@ -179,8 +179,8 @@ function animation()
    } 
    if(kde == 1){
   if(nakresPohybu == 0) {nakresPohybu = nakresPohybu + 1;}
-  var x = e.pageX - e.target.offsetLeft;
-  var y = e.pageY - e.target.offsetLeft;
+  var x = e.pageX;
+  var y = e.pageY;
     $('#xx').val(x-409);
     $('#yy').val(y-9);
     $("#ihrisko").append("<div style=\"position:absolute;border:1px solid black;width:5px;height:5px;\" class=\"nakresPohybu\"></div> ")
