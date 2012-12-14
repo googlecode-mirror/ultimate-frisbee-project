@@ -1,8 +1,9 @@
-<?php 
-  $text = 'Tato sprava bola vygenerovana s php a po nacitani sa zobrazi.'; 
+<?php
+  $text = 'Tato sprava bola vygenerovana s php a po nacitani sa zobrazi.';
 ?>
 
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>TISKO</title>
  
@@ -17,7 +18,7 @@
 <script type="text/javascript" src="js/Hrac.js"></script>
 <script type="text/javascript" src="js/Point.js"></script>
 
-<style type="text/css"> 
+<style type="text/css">
 #lavaStrana{  
 float:left;
 width: 400px;
@@ -31,7 +32,7 @@ margin-left: 400px;
 #ihrisko{
 width: 500px;
 height: 600px;
-background-color: rgb(0,204,0); 
+background-color: rgb(0,204,0);
 border: thin rgb(0,0,0) solid;
 position: relative;
 }
@@ -42,22 +43,68 @@ width: 320px;
 }
 
 .line{
-    padding;1px;
+    padding:1px;
   }
 </style>
 </head>
-<body >
-<div id="lavaStrana"> 
-<div id="pridavanie"> 
+<body>
+     
+<div id="lavaStrana">
+    
+<button id="load">LOAD</button> 
+<button id="edit">EDIT</button>
+<?php 
+if(isset($_GET['drill'])){   
+     $filename = 'drills/'.$_GET['drill'].'.txt';
+     $fh = fopen($filename,'r');
+     $stringData = fread($fh,filesize($filename));
+     ?>
+     <script type="text/javascript">
+            $(document).ready(function(){
+                animation.load("<?= $stringData; ?>");
+            });
+     </script>
+     <button id="opatovnyStart">SPUST ZNOVA</button>
+     <span class="readBytesButtons">
+           <button id="start">START</button>
+     </span>
+     <?php
+     fclose($fh);  
+}
+?> 
+ 
+
+<div id="editNastavenia" class="nastavenia">
+    
+<div id="vyberTimov">
+<h1> Nastavenie animacie</h1>
+ <label for="dlzkaCyklu">Zvol dlzku cyklu pre celu animaciu: </label>
+<input  name="dlzkaCyklu" type="text" size="5" maxlength="5" id="dlzkaCyklu" value="" /> ms
+
+<h2> Moznosti vyberu hracov a lopty: </h2>
+<h4> Stlac ak ma patrit do prveho timu: </h4>
+  <button id="prvyTim">PRVY TIM</button>  <br />
+<h4> Stlac ak ma patrit do druheho timu: </h4>
+  <button id="druhyTim">DRUHY TIM</button>    <br />
+<h4> Stlac ak urcujes pohyb lopty: </h4>  
+  <button id="lopta">LOPTA</button>       <br />
+</div>
+ 
+
+  <script type="text/javascript">
+
+</script>
+        
+<div id="pridavanie">
 
 <h1>Nastavenia hraca</h1>
   <label for="dlzkaPohybu">Zvol dlzku cyklu pre daneho hraca: </label>
   <input  name="dlzkaPohybu" type="text" size="5" maxlength="5" id="dlzkaPohybu" value="" /> ms  <br/><br/>
     <p>Klik na ihrisko</p>
-	  <label for="x-os">x: </label>  
-		<input name="x-os" type="text" size="7" maxlength="3" id="x-os" value="" /> <br/>
-		<label for="y-os">y: </label> 
-		<input name="y-os" type="text" size="7" maxlength="3" id="y-os" value="" /> <br/>
+          <label for="x-os">x: </label>  
+                <input name="x-os" type="text" size="7" maxlength="3" id="x-os" value="" /> <br/>
+                <label for="y-os">y: </label>
+                <input name="y-os" type="text" size="7" maxlength="3" id="y-os" value="" /> <br/>
 </div>
 
 <div id="pridavaniePohybu">
@@ -67,112 +114,21 @@ width: 320px;
   <div id="dole">
   <h3>Nastavenia pohybu hraca</h3>
   <h5>Klik na ihrisko</h5>
-	  <label for="xx">x: </label>  
-		<input name="xx" type="text" size="5" maxlength="3" id="xx" value="" /> 
-		<label for="yy">y: </label> 
-		<input name="yy" type="text" size="5" maxlength="3" id="yy" value="" />  <br/>
-		<label for="tt">Cas za kolko ms tam ma byt: </label> 
-		<input name="tt" type="text" size="5" maxlength="5" id="tt" value="" /> ms
-	 </div>
-  
+          <label for="xx">x: </label>  
+                <input name="xx" type="text" size="5" maxlength="3" id="xx" value="" />
+                <label for="yy">y: </label>
+                <input name="yy" type="text" size="5" maxlength="3" id="yy" value="" />  <br/>
+                <label for="tt">Cas za kolko ms tam ma byt: </label>
+                <input name="tt" type="text" size="5" maxlength="5" id="tt" value="" /> ms
+         </div>
+ 
   <button class="potvrdPohyb">ULOZ!</button>  |  
-  <button id="pohyboveTlacidlo">NOVY POHYB</button>	 </br>
+  <button id="pohyboveTlacidlo">NOVY POHYB</button>      <br />
   </fieldset>
  </div>
 
-		
+               
 </div>
-  <button id="tlacidlo">EDIT</button>
-  
-  <div id="vyberTimov">
-  <h1> Nastavenie animacie</h1>
-   <label for="dlzkaCyklu">Zvol dlzku cyklu pre celu animaciu: </label>
-  <input  name="dlzkaCyklu" type="text" size="5" maxlength="5" id="dlzkaCyklu" value="" /> ms
-  
-  <h2> Moznosti vyberu hracov a lopty: </h2>
-  <h4> Stlac ak ma patrit do prveho timu: </h4>
-    <button id="prvyTim">PRVY TIM</button>  </br>
-  <h4> Stlac ak ma patrit do druheho timu: </h4>
-    <button id="druhyTim">DRUHY TIM</button>    </br>
-  <h4> Stlac ak urcujes pohyb lopty: </h4>  
-    <button id="lopta">LOPTA</button>       </br>
-  </div>
-
-
-
-<div id="loadNastavenia">
-<form enctype=".//">
-  Choose a file to upload: <input name="uploadedfile" id="uploadedfile" type="file" /><br />
-</form>  
-</div> 
- <button id="load">LOAD</button>  
- <button id="opatovnyStart">SPUST ZNOVA</button>
- <span class="readBytesButtons">
-   <button id="start">START</button>
-</span>
-
-
-  
-
-  <script type="text/javascript"> 
-  
-$(document).ready(function(){
- $('#save').unbind('click').click(function(){
-    
-      var skuska = animation.skuska();
-  
-     
-   document.getElementById("save").value = skuska;
-   document.getElementById("pom").value = document.getElementById("textSave").value + ".txt";
-   $("#loadNazvy").append("<p>" + document.getElementById("pom").value + "</p>");
-    });
-    
- $('#load').unbind('click').click(function(){
-  $('#start').show();
-   $('#load').hide();
-  $('#tlacidlo').hide();
-  $('#loadNastavenia').show();
-    
-  //nacitanie   
-    function readBlob(opt_startByte, opt_stopByte) {
-
-    var files = document.getElementById('uploadedfile').files;
-    if (!files.length) {
-      alert('Please select a file!');
-      return;
-    }
-
-    var file = files[0];
-    var start = parseInt(opt_startByte) || 0; 
-    var stop = parseInt(opt_stopByte) || file.size - 1;
-
-    var reader = new FileReader();
-
-    reader.onloadend = function(evt) {
-      if (evt.target.readyState == FileReader.DONE) {
-       animation.load(evt.target.result);
-      }
-    };
-
-    var blob = file.slice(start, stop + 1);
-    reader.readAsBinaryString(blob);
-    
-    
-  }
-  
-  document.querySelector('.readBytesButtons').addEventListener('click', function(evt) {
-    if (evt.target.tagName.toLowerCase() == 'button') {
-      var startByte = evt.target.getAttribute('data-startbyte');
-      var endByte = evt.target.getAttribute('data-endbyte');
-      readBlob(startByte, endByte);
-    }
-  }, false);
-    
-  //nacitanie      
-  });    
-});
-
-</script> 
    
 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" name="form1" id="form1">
    <h3>Uloz animaciu:</h3>
@@ -182,34 +138,50 @@ $(document).ready(function(){
    <input name="pomLoad" id="pomLoad" type="hidden" />
    <button id="save" name="save">SAVE</button>        
 
-    
+   
  <?php
    if (isset ($_POST["save"]) && isset($_POST["textSave"])){
    $text = $_POST["save"];
-    $myFile = $_POST["pom"];
-    
+    $myFile = "drills/".$_POST["pom"];
     $fh = fopen($myFile, 'w') or die("can't open file");
     $stringData =  $text;
     fwrite($fh, $stringData);
-    fclose($fh);                   
+    fclose($fh); 
+    ?>
+    <script type="text/javascript">
+        $('#loadNastavenia').load('drills_hyperlinks.php');
+    </script>
+    <?php
    }
-      
+     
    
-  ?>   
+  ?>  
 </form>   
    
+<button id="tlacidlo"></button>
 
+</div>
 
+ 
+<div id="loadNastavenia" class="nastavenia">
+    <?php
+    include "drills_hyperlinks.php";
+    ?> 
+</div>  
 
 
 
 </div>
 
-<div id="pravaStrana"> 
-<div id="ihrisko"> <canvas id="paint"  width="500px" height="600px"> </canvas> 
+<div id="pravaStrana">
+    <h2>
+    <?php echo isset($_GET['drill']) ? $_GET['drill'] : ""; ?>
+    </h2>
+<div id="ihrisko"> <canvas id="paint"  width="500px" height="600px"> </canvas>
 
 </div>
 </div>
 
 </body>
 </html>
+
