@@ -8,30 +8,30 @@ function Hrac(x,y,t,id,farba,interv)
   this.id=id;  
   this.interval = interv;
   var hrac = this;
-  
-  
+ 
+ 
   this.addPoint = function(x,y,t){
     this.points.push(new Point(x,y,t));    
   }
-  
+ 
   this.getX = function(){
    return this.x;
   }
-  
+ 
   this.getHtml = function(){
     return "<div style=\"position:absolute;border:1px solid black;width:5px;height:5px;\" id=\"" + this.id + "\"></div>";
   }
   this.getElement = function(){
     return $('#' + this.id);
   }
-  this.setup = function(){ 
+  this.setup = function(){
     this.getElement().css({"background-color": this.farba });
     this.getElement().css({"left": this.points[0].x + "px"});
     this.getElement().css({"top": this.points[0].y + "px"});
   }
-  
+ 
   this.animate = function(cycle,i,limit){
-    
+   
     var elem = this.getElement();
     var nextI = (i+1)%this.points.length;
     var nextCycle = cycle;
@@ -59,13 +59,12 @@ function Hrac(x,y,t,id,farba,interv)
     }
     else
     {
-      $('#loadNastavenia').show();
       $('#start').hide();
       $('#opatovnyStart').show();
     }
 
     return this;
   }
-  
+ 
  
 }
