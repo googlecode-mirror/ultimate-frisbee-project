@@ -7,6 +7,11 @@ function Start()
 {
    $('.nastavenia').hide();
    $('#opatovnyStart').hide();
+   $('#editNastavenia').show(); 
+   $('#pridavanie').hide();
+   $('#pridavaniePohybu').hide();
+   $('#vyberTimov').show();
+   $('#tlacidlo').hide();
    
    $('#opatovnyStart').unbind('click').click(function(){
         animation.run();
@@ -17,10 +22,9 @@ function Start()
    });
    
   $('#save').click(function(){
+      $('.nastavenia').hide();
       var skuska = animation.skuska();
-      document.getElementById("save").value = skuska;
-      document.getElementById("pom").value = document.getElementById("textSave").value + ".txt";
-      $("#loadNazvy").append("<p>" + document.getElementById("pom").value + "</p>");
+      document.getElementById("pom").value = skuska;
   });
 
   $('#load').click(function(){
@@ -29,13 +33,8 @@ function Start()
   });   
  
   $('#edit').unbind('click').click(function(){
-      $('.nastavenia').hide();
-     $('#pridavanie').hide();
-     $('#pridavaniePohybu').hide();
+     $('.nastavenia').hide();
      $('#editNastavenia').show(); 
-     $('#vyberTimov').show();
-     $('#form1').hide();
-     $('#tlacidlo').hide();
   });
  
   $('#prvyTim').unbind('click').click(function(){
