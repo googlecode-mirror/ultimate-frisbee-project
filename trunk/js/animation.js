@@ -5,12 +5,12 @@ var yy_pom = 0;
 var tt_pom = 0;
 var kde = 0;
 var nakres = 0;
-var nakresPohybu = 0; 
+var nakresPohybu = 0;
 var limit = 0;
 
 function animation()
 {
-  
+ 
   this.hraci2 = [];
  
  this.PridajHraca= function(x,y,t,color,inter){
@@ -31,25 +31,24 @@ function animation()
         hrac2.farba = lines[0];
         hrac2.interval = parseInt(lines[1]);
         hrac2.id = i-1;
-        
+       
          for(var j in lines)
         {
           if(j>1)
           {
             data = lines[j].split(" ");
             if(!isNaN(data[0]) && !isNaN(data[1]) && !isNaN(data[2])){
-            	hrac2.addPoint(parseInt(data[0]), parseInt(data[1]), parseInt(data[2]));
-            	//this.field.spanPoint(parseInt(data[0]), parseInt(data[1]));
+                hrac2.addPoint(parseInt(data[0]), parseInt(data[1]), parseInt(data[2]));
+                //this.field.spanPoint(parseInt(data[0]), parseInt(data[1]));
             }
           }
          }
         hraci.push(hrac2);
       }
     }
-    
+   
     animation.draw();
-    animation.run();
- }
+ } 
  
  this.skuska = function(){
    var text = limit + '##';
@@ -60,24 +59,24 @@ function animation()
    for(var j in hraci[i].points) {
     text += hraci[i].points[j].x + ' ' + hraci[i].points[j].y + ' ' + hraci[i].points[j].t + '#' ;  
     }
-      if(i != hraci.length -1){ 
-        text+= '#';             
+      if(i != hraci.length -1){
+        text+= '#';            
       }
    }
    
    
-  
+ 
   return  text;
  }
  
  this.draw= function (){
-    
+   
     for(var i in hraci)
     {
      var ide = hraci[i].getElement();
      $(ide).remove();
     }
-    
+   
     var html= '';
     for(var i in hraci)
     {
@@ -95,33 +94,33 @@ function animation()
     $('#pridavanie').show();
     //vymazanie premennych
     $('#x-os').val('');
-    $('#y-os').val(''); 
+    $('#y-os').val('');
         $('#xx').val('');
         $('#yy').val('');
         $('#tt').val('');
         $('#dlzkaPohybu').val('');
      
-     kde = 0; 
+     kde = 0;
     $('#tlacidlo').html('POTVRD POZICIU');
-    
+   
     $('#tlacidlo').unbind('click').click(function(){
-    
+   
     if(($('#dlzkaPohybu').val() > 0) && ($('#dlzkaPohybu').val() <= limit)){
       animation.pohyb(color);
      }else{
        alert("Zadaj spravne dlzku pohybu, musi byt mensia ako dlzka animacie!" + limit);
-     } 
+     }
     });
   }
-  
+ 
   this.pohyb = function(color){
-    
+   
     animation.PridajHraca( $('#x-os').val(), $('#y-os').val(),$('#x-os').val(),color,$('#dlzkaPohybu').val());  
-    
+   
     hraci[hraci.length -1].addPoint($('#x-os').val(), $('#y-os').val(),0);
-          
+         
     animation.draw();
-    
+   
     kde =1;
     $('#pridavaniePohybu').show();
     $('#pohyboveTlacidlo').attr("disabled", true);
@@ -132,39 +131,39 @@ function animation()
         $('#yy').val('');
         $('#tt').val('');
         $('h5').after('<div class="novyy"> <label for="xxx">x: </label>  <input name="xxx" type="text" size="7" maxlength="3" id="xxx" value='+xx_pom +' /><label for="yyy">y: </label><input name="yyy" type="text" size="7" maxlength="3" id="yyy" value='+yy_pom +' /> <br/><label for="ttt">Cas za kolko ms tam ma byt:</label> <input name="ttt" type="text" size="7" maxlength="3" id="ttt" value='+tt_pom +' /> </div>');
-        $('.potvrdPohyb').attr("disabled", false); 
+        $('.potvrdPohyb').attr("disabled", false);
         $('#pohyboveTlacidlo').attr("disabled", true);
       }  
     });
-    
+   
     $('#tlacidlo').html('POTVRD HRACA');
     $('#tlacidlo').unbind('click').click(function(){
       animation.potvrd();
     });
-    
-    $(".potvrdPohyb").unbind('click').click(function(){ 
+   
+    $(".potvrdPohyb").unbind('click').click(function(){
        $('.potvrdPohyb').attr("disabled", true);
-       $('#pohyboveTlacidlo').attr("disabled", false);   
+       $('#pohyboveTlacidlo').attr("disabled", false);  
       hraci[hraci.length -1].addPoint($('#xx').val(),$('#yy').val(),$('#tt').val());
        
       animation.kreslenieCiary(hraci[hraci.length -1].points[hraci[hraci.length -1].points.length - 2].x,hraci[hraci.length -1].points[hraci[hraci.length -1].points.length - 2].y,hraci[hraci.length -1].points[hraci[hraci.length -1].points.length - 1].x,hraci[hraci.length -1].points[hraci[hraci.length -1].points.length - 1].y);
-      
+     
        xx_pom = $('#xx').val();
        yy_pom = $('#yy').val();
        tt_pom = $('#tt').val();
       pom = pom + 1;
     });
-  }   
-  
-  this.pos = function(){     
+  }  
+ 
+  this.pos = function(){    
    $("#ihrisko").unbind('click').click(function(e){
    if(nakres == 1){
     $(".nakres").remove();
-   } 
+   }
    if(nakresPohybu == 1){
     $(".nakresPohybu").remove();
    }
-    
+   
    if(kde == 0){
   var x = e.pageX;
   var y = e.pageY;
@@ -176,7 +175,7 @@ function animation()
     $('.nakres').css({"left": $('#x-os').val() + "px"});
     $('.nakres').css({"top": $('#y-os').val()+ "px"});  
      
-   } 
+   }
    if(kde == 1){
   if(nakresPohybu == 0) {nakresPohybu = nakresPohybu + 1;}
   var x = e.pageX;
@@ -186,41 +185,41 @@ function animation()
     $("#ihrisko").append("<div style=\"position:absolute;border:1px solid black;width:5px;height:5px;\" class=\"nakresPohybu\"></div> ")
     $('.nakresPohybu').css({"background-color":"black"});
     $('.nakresPohybu').css({"left": $('#xx').val() + "px"});
-    $('.nakresPohybu').css({"top": $('#yy').val()+ "px"}); 
-    
+    $('.nakresPohybu').css({"top": $('#yy').val()+ "px"});
    
-    
+   
+   
    }
    
    });
   }
-  
-  
-  
+ 
+ 
+ 
   this.potvrd = function(){
     $('#pridavanie').hide();
     $('#pridavaniePohybu').hide();
-    $('.potvrdPohyb').attr("disabled", false);     
+    $('.potvrdPohyb').attr("disabled", false);    
     $('#x-os').val('');
     $('#y-os').val('');
     kde =2;
-    
+   
     $(".nakresPohybu").remove();
     $('.novyy').remove();
     pom=0;
    
-  
+ 
     $('#tlacidlo').hide();
-    
+   
     $('#vyberTimov').show();
-   $('#form1').show();
-    
+    $('#form1').show();
+   
  //  $('#save').unbind('click').click(function(){
    //   $('#tlacidlo').html('EDIT');
    //   animation.kreslenieCiary('a','b','c','d');
   // });
   }
-  
+ 
    this.run = function(){
       for(var i in hraci)
     {
@@ -234,7 +233,7 @@ function animation()
 var theCanvas  = $('#paint');
 var ctx = theCanvas[0].getContext('2d');
 
- if(x1 >=0){ 
+ if(x1 >=0){
         ctx.strokeStyle = 'black';
         ctx.lineWidth = 2;
         ctx.lineCap = 'round';
@@ -242,11 +241,11 @@ var ctx = theCanvas[0].getContext('2d');
         ctx.moveTo(x1, y1);
         ctx.lineTo(x2, y2);
         ctx.stroke();
-        
+       
  }
  if(x1 == 'a'){
   ctx.clearRect(0,0,500,600);
- }       
+ }      
 }
  
 }
