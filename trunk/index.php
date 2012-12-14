@@ -50,11 +50,31 @@ width: 320px;
 <body>
      
 <div id="lavaStrana">
-    
+
+<button onclick="window.location.href='<?php echo $_SERVER['PHP_SELF']; ?>'">NEW</button>
 <button id="load">LOAD</button> 
 <button id="edit">EDIT</button>
+
 <?php 
+if (isset($_POST["save"]) && isset($_POST["pom"]) && isset($_POST["saveFileName"])){
+    $_GET['drill'] = $_POST["saveFileName"];   
+    $text = $_POST["pom"];
+    $myFile = "drills/".$_POST["saveFileName"].".txt";
+    $fh = fopen($myFile, 'w') or die("can't open file");
+    fwrite($fh, $text);
+    fclose($fh); 
+    ?>
+    <script type="text/javascript">
+        $('#loadNastavenia').load('drills_hyperlinks.php');
+    </script>
+    <?php
+}
+
 if(isset($_GET['drill'])){   
+     ?>
+     <button id="opatovnyStart">SPUST ZNOVA</button>
+     <button id="start">START</button>
+     <?php
      $filename = 'drills/'.$_GET['drill'].'.txt';
      $fh = fopen($filename,'r');
      $stringData = fread($fh,filesize($filename));
@@ -64,10 +84,6 @@ if(isset($_GET['drill'])){
                 animation.load("<?= $stringData; ?>");
             });
      </script>
-     <button id="opatovnyStart">SPUST ZNOVA</button>
-     <span class="readBytesButtons">
-           <button id="start">START</button>
-     </span>
      <?php
      fclose($fh);  
 }
@@ -89,11 +105,6 @@ if(isset($_GET['drill'])){
 <h4> Stlac ak urcujes pohyb lopty: </h4>  
   <button id="lopta">LOPTA</button>       <br />
 </div>
- 
-
-  <script type="text/javascript">
-
-</script>
         
 <div id="pridavanie">
 
@@ -130,35 +141,15 @@ if(isset($_GET['drill'])){
                
 </div>
    
+<button id="tlacidlo"></button>
+   
 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" name="form1" id="form1">
    <h3>Uloz animaciu:</h3>
-   <label for="textSave">Ulozit ako:</label>
-   <input name="textSave" type="text" size="15" maxlength="15" id="textSave"  value="" /> <br/>
+   <label for="saveFileName">Ulozit ako:</label>
+   <input name="saveFileName" type="text" size="15" maxlength="15" id="saveFileName"  value="" /> <br/>
    <input name="pom" id="pom" type="hidden" />
-   <input name="pomLoad" id="pomLoad" type="hidden" />
-   <button id="save" name="save">SAVE</button>        
-
-   
- <?php
-   if (isset ($_POST["save"]) && isset($_POST["textSave"])){
-   $text = $_POST["save"];
-    $myFile = "drills/".$_POST["pom"];
-    $fh = fopen($myFile, 'w') or die("can't open file");
-    $stringData =  $text;
-    fwrite($fh, $stringData);
-    fclose($fh); 
-    ?>
-    <script type="text/javascript">
-        $('#loadNastavenia').load('drills_hyperlinks.php');
-    </script>
-    <?php
-   }
-     
-   
-  ?>  
-</form>   
-   
-<button id="tlacidlo"></button>
+   <button id="save" name="save">SAVE</button>   
+</form>  
 
 </div>
 
@@ -184,4 +175,3 @@ if(isset($_GET['drill'])){
 
 </body>
 </html>
-
