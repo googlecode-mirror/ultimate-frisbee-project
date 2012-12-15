@@ -219,10 +219,10 @@ animation.kreslenieCiary('a','b','c','d',1,'black');
    } 
    if(kde == 1){
   if(nakresPohybu == 0) {nakresPohybu = nakresPohybu + 1;}
-  var x = e.pageX;
-  var y = e.pageY;
+  var x = e.pageX - $("#ihrisko").offset().left;
+  var y = e.pageY - $("#ihrisko").offset().top;
     $('#xx').val(x);
-    $('#yy').val(y-20);
+    $('#yy').val(y);
     $("#ihrisko").append("<div style=\"position:absolute;border:1px solid black;width:5px;height:5px;\" class=\"nakresPohybu\"></div> ")
     $('.nakresPohybu').css({"background-color":"black"});
     $('.nakresPohybu').css({"left": $('#xx').val() + "px"});
