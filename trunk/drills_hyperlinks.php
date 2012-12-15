@@ -1,5 +1,4 @@
-
-    <?php
+ <?php
     if ($handle = opendir('drills')) {
         $pocet = 0;
         while (false !== ($entry = readdir($handle))) {
@@ -22,7 +21,7 @@
             }
         }
         if($pocet == 0){
-            echo "Na serveri nie je žiaden súbor s taktikou.";
+            echo "Na serveri nie je Âžiaden sÃºbor s taktikou.";
         }
         closedir($handle);
     }
