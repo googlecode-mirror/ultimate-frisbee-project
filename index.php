@@ -1,9 +1,8 @@
-<?php
-  $text = 'Tato sprava bola vygenerovana s php a po nacitani sa zobrazi.';
+<?php 
+  $text = 'Tato sprava bola vygenerovana s php a po nacitani sa zobrazi.'; 
 ?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
 <head>
 <title>TISKO</title>
  
@@ -18,7 +17,7 @@
 <script type="text/javascript" src="js/Hrac.js"></script>
 <script type="text/javascript" src="js/Point.js"></script>
 
-<style type="text/css">
+<style type="text/css"> 
 #lavaStrana{  
 float:left;
 width: 400px;
@@ -32,7 +31,7 @@ margin-left: 400px;
 #ihrisko{
 width: 500px;
 height: 600px;
-background-color: rgb(0,204,0);
+background-color: rgb(0,204,0); 
 border: thin rgb(0,0,0) solid;
 position: relative;
 }
@@ -43,15 +42,14 @@ width: 320px;
 }
 
 .line{
-    padding:1px;
+    padding;1px;
   }
 </style>
 </head>
-<body>
-     
-<div id="lavaStrana">
+<body >
+<div id="lavaStrana"> 
 
-<button onclick="window.location.href='<?php echo $_SERVER['PHP_SELF']; ?>'">NEW</button>
+ <button onclick="window.location.href='<?php echo $_SERVER['PHP_SELF']; ?>'">NEW</button>
 <button id="load">LOAD</button> 
 <button id="edit">EDIT</button>
 
@@ -72,8 +70,10 @@ if (isset($_POST["save"]) && isset($_POST["pom"]) && isset($_POST["saveFileName"
 
 if(isset($_GET['drill'])){   
      ?>
-     <button id="opatovnyStart">SPUST ZNOVA</button>
-     <button id="start">START</button>
+     <button id="run">START</button> <br/>
+     <button id="editAnimacie">EDIT ANIMACIE</button>
+     <div id="uprava"></div>
+  
      <?php
      $filename = 'drills/'.$_GET['drill'].'.txt';
      $fh = fopen($filename,'r');
@@ -81,6 +81,8 @@ if(isset($_GET['drill'])){
      ?>
      <script type="text/javascript">
             $(document).ready(function(){
+                $('.nastavenia').hide();
+                
                 animation.load("<?= $stringData; ?>");
             });
      </script>
@@ -88,7 +90,6 @@ if(isset($_GET['drill'])){
      fclose($fh);  
 }
 ?> 
- 
 
 <div id="editNastavenia" class="nastavenia">
     
@@ -158,12 +159,14 @@ if(isset($_GET['drill'])){
     <?php
     include "drills_hyperlinks.php";
     ?> 
-</div>  
+</div> 
 
 
 
-</div>
-
+ </div>
+ 
+ 
+ 
 <div id="pravaStrana">
     <h2>
     <?php echo isset($_GET['drill']) ? $_GET['drill'] : ""; ?>
@@ -172,6 +175,8 @@ if(isset($_GET['drill'])){
 
 </div>
 </div>
+
+
 
 </body>
 </html>
