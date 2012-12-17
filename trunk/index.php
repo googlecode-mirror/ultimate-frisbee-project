@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <head>
 <title>TISKO</title>
- 
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" /> 
 <script type="text/javascript" src="js/jquery-1.7.1.js"></script>
 <script type="text/javascript" src="js/jquery.pause.js"></script>
 <script type="text/javascript" src="js/jquery.ui.core.js"></script>
@@ -16,6 +16,7 @@
 <script type="text/javascript" src="js/animation.js"></script>
 <script type="text/javascript" src="js/Hrac.js"></script>
 <script type="text/javascript" src="js/Point.js"></script>
+
 
 <style type="text/css"> 
 #lavaStrana{  
@@ -48,10 +49,10 @@ width: 320px;
 </head>
 <body >
 <div id="lavaStrana"> 
-
+ <h1>Frisbee editor</h1>
  <button onclick="window.location.href='<?php echo $_SERVER['PHP_SELF']; ?>'">NEW</button>
-<button id="load">LOAD</button> 
-<button id="edit">EDIT</button>
+<button id="load">LOAD</button>   <br/><br/>
+
 
 <?php 
 if (isset($_POST["save"]) && isset($_POST["pom"]) && isset($_POST["saveFileName"])){
@@ -61,7 +62,7 @@ if (isset($_POST["save"]) && isset($_POST["pom"]) && isset($_POST["saveFileName"
     $fh = fopen($myFile, 'w') or die("can't open file");
     fwrite($fh, $text);
     fclose($fh); 
-    ?>
+    ?>   
     <script type="text/javascript">
         $('#loadNastavenia').load('drills_hyperlinks.php');
     </script>
@@ -70,10 +71,12 @@ if (isset($_POST["save"]) && isset($_POST["pom"]) && isset($_POST["saveFileName"
 
 if(isset($_GET['drill'])){   
      ?>
+  
      <button id="run">START</button> <br/>
      <button id="editAnimacie">EDIT ANIMACIE</button>
      <div id="uprava"></div>
-  
+   
+     
      <?php
      $filename = 'drills/'.$_GET['drill'].'.txt';
      $fh = fopen($filename,'r');
@@ -82,10 +85,28 @@ if(isset($_GET['drill'])){
      <script type="text/javascript">
             $(document).ready(function(){
                 $('.nastavenia').hide();
-                
                 animation.load("<?= $stringData; ?>");
             });
      </script>
+
+     
+  <button id="zmenPridajPohyb"> ADD MOVE</button> <br />
+  
+   <div id="vyberNovehoHraca">
+<h2> Moznosti vyberu hracov a lopty: </h2>
+<h4> Stlac ak ma patrit do prveho timu: </h4>
+  <button id="prvyTim">PRVY TIM</button>  <br />
+<h4> Stlac ak ma patrit do druheho timu: </h4>
+  <button id="druhyTim">DRUHY TIM</button>    <br />
+<h4> Stlac ak urcujes pohyb lopty: </h4>  
+  <button id="lopta">FRISBEE</button>       <br /><br />
+  </div>   
+     
+     
+     <button id="editZmena">CHANGE</button> 
+     <button id="zmenVymazHraca">REMOVE PLAYER </button>
+     <button id="zmenPridajHraca">ADD PLAYER </button>
+    
      <?php
      fclose($fh);  
 }
@@ -94,17 +115,17 @@ if(isset($_GET['drill'])){
 <div id="editNastavenia" class="nastavenia">
     
 <div id="vyberTimov">
-<h1> Nastavenie animacie</h1>
+<h3> Nastavenie animacie</h3>
  <label for="dlzkaCyklu">Zvol dlzku cyklu pre celu animaciu: </label>
 <input  name="dlzkaCyklu" type="text" size="5" maxlength="5" id="dlzkaCyklu" value="" /> ms
 
-<h2> Moznosti vyberu hracov a lopty: </h2>
+<h3> Moznosti vyberu hracov a lopty: </h3>
 <h4> Stlac ak ma patrit do prveho timu: </h4>
   <button id="prvyTim">PRVY TIM</button>  <br />
 <h4> Stlac ak ma patrit do druheho timu: </h4>
   <button id="druhyTim">DRUHY TIM</button>    <br />
 <h4> Stlac ak urcujes pohyb lopty: </h4>  
-  <button id="lopta">LOPTA</button>       <br />
+  <button id="lopta">FRISBEE</button>       <br />
 </div>
         
 <div id="pridavanie">
@@ -156,6 +177,9 @@ if(isset($_GET['drill'])){
 
  
 <div id="loadNastavenia" class="nastavenia">
+ 
+ <h3>Dostupne animacie: </h3>
+ 
     <?php
     include "drills_hyperlinks.php";
     ?> 
@@ -169,7 +193,10 @@ if(isset($_GET['drill'])){
  
 <div id="pravaStrana">
     <h2>
-    <?php echo isset($_GET['drill']) ? $_GET['drill'] : ""; ?>
+    <?php 
+    if(isset($_GET['drill']))
+     echo 'Nacitana animacia - ';
+    echo isset($_GET['drill']) ? $_GET['drill'] : ""; ?>
     </h2>
 <div id="ihrisko"> <canvas id="paint"  width="500px" height="600px"> </canvas>
 
