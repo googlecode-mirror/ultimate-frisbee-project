@@ -59,6 +59,7 @@ if (isset($_POST["save"]) && isset($_POST["pom"]) && isset($_POST["saveFileName"
     $_GET['drill'] = $_POST["saveFileName"];   
     $text = $_POST["pom"];
     $myFile = "drills/".$_POST["saveFileName"].".txt";
+    chmod($myFile,0444);
     $fh = fopen($myFile, 'w') or die("can't open file");
     fwrite($fh, $text);
     fclose($fh); 
@@ -79,6 +80,7 @@ if(isset($_GET['drill'])){
      
      <?php
      $filename = 'drills/'.$_GET['drill'].'.txt';
+     chmod($filename,0444);
      $fh = fopen($filename,'r');
      $stringData = fread($fh,filesize($filename));
      ?>
