@@ -71,29 +71,42 @@ $('button.edit-player').click(function(){
      
      var wp = menenyHrac.points[j];
         html += '<input class="x'+j+'" value="'+wp.x+'"></input>:<input class="y'+j+'" value="'+wp.y+'"></input>';
-        html += '<input class="t'+j+'" value="'+wp.t+'"><button id="'+menenyHrac.id+j+'">REMOVE</button><br/>';
+        html += '<input class="t'+j+'" value="'+wp.t+'"><input type="button" id="'+menenyHrac.id+j+'" class="remove" value="'+menenyHrac.id+j+'" / ><br/>';
         
     if(j < menenyHrac.points.length - 1){     
       animation.kreslenieCiary(menenyHrac.points[j].x,menenyHrac.points[j].y,menenyHrac.points[parseInt(j)+parseInt(1)].x,menenyHrac.points[parseInt(j)+parseInt(1)].y,menenyHrac.points[parseInt(j)+parseInt(1)].t,menenyHrac.farba);           
     }
   }
  $('.player-detail').html(html); 
- 
-for(k in menenyHrac.points){ 
- $('button#'+menenyHrac.id+k+'').click(function(){
-    
-        alert(menenyHrac.points[k].x);
-        
-        menenyHrac.points.splice(k,1);
-        
 
- });   
-}
+ 
+ $('.remove').each(function(index) {
+    $('#'+menenyHrac.id+index+'').click(function(){
+     alert($('#'+menenyHrac.id+index+'').val());
+     menenyHrac.points.splice(index,1);
+     
+     animation.kreslenieCiary('a','b','c','d','e','f');
+          animation.vykresliPohyby(menenyHrac); 
+          var html ='';  
+           html += 'Zmen dlzku animacie hraca: <input id="hracInterval" value="'+menenyHrac.interval+'"><br/>';
+            for(j in menenyHrac.points){
+              var wp = menenyHrac.points[j];
+                  html += '<input class="x'+j+'" value="'+wp.x+'"></input>:<input class="y'+j+'" value="'+wp.y+'"></input>';
+                  html += '<input class="t'+j+'" value="'+wp.t+'"><br/>';
+        
+              if(j < menenyHrac.points.length - 1){     
+                animation.kreslenieCiary(menenyHrac.points[j].x,menenyHrac.points[j].y,menenyHrac.points[parseInt(j)+parseInt(1)].x,menenyHrac.points[parseInt(j)+parseInt(1)].y,menenyHrac.points[parseInt(j)+parseInt(1)].t,menenyHrac.farba);           
+              }
+            }
+            $('.player-detail').html(html);
+     
+    });
+});
  
   $('#zmenVymazHraca').click(function(){ 
     animation.vymazHraca(menenyHrac);
     menenyHrac = '';
-    $('#zmenVymazHraca').hide();
+    $('#zmenVymazHraca').hide(); 
   });
   
   $('#zmenPridajPohyb').click(function(){
@@ -104,6 +117,9 @@ for(k in menenyHrac.points){
    $('#pridavaniePohybu').show();
     $('h3').hide();
    $('#pohyboveTlacidlo').hide();
+    $('#editZmena').hide(); 
+    $('#zmenVymazHraca').hide();
+     $('#zmenPridajHraca').hide();
    kde = 1;
    animation.pos(); 
    animation.zmenPridajPohybFunkcia(menenyHrac); 
@@ -148,6 +164,10 @@ this.zmenPridajPohybFunkcia = function(kto){
            $('#editNastavenia').hide();
            $('#pridavaniePohybu').hide();
            $('#zmenPridajPohyb').show();
+           $('#pohyboveTlacidlo').show();
+            $('#editZmena').show(); 
+            $('#zmenVymazHraca').show();
+            $('#zmenPridajHraca').show();
            kde = 2;
            $(".nakresPohybu").remove();
         }else{
