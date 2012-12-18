@@ -463,12 +463,37 @@ if(kto == 'limit'){
    
   }
   
+  this.pause = function(){
+    for(var i in hraci)
+    {
+      hraci[i].pause();
+    }
+  //  this.paused = true;
+    $('#run').html('PLAY').unbind('click').click(function(){
+      animation.resume();
+    });
+  }
+
+  this.resume = function(){
+    for(var i in hraci)
+    {
+      hraci[i].resume();
+    }
+   // this.paused = false;
+    $('#run').html('PAUSE').unbind('click').click(function(){
+      animation.pause();
+    });
+  }
+  
    this.run = function(){
       for(var i in hraci)
     {
       hraci[i].animate(0,0,limit);
     }
-   
+     $('#run').html('PAUSE');
+    $('#run').unbind('click').click(function(){
+      animation.pause();
+    });
    }
    
  this.kreslenieCiary = function(x1,y1,x2,y2,n,H) {
