@@ -30,6 +30,17 @@ function Hrac(x,y,t,id,farba,interv)
     this.getElement().css({"top": this.points[0].y + "px"});
   }
   
+  
+  this.pause = function(){
+    var elem = this.getElement();
+    elem.pause();
+  }
+
+  this.resume = function(){
+    var elem = this.getElement();
+    elem.resume();
+  }
+  
   this.animate = function(cycle,i,limit){
     
     var elem = this.getElement();
@@ -62,6 +73,7 @@ function Hrac(x,y,t,id,farba,interv)
       $('#loadNastavenia').show();
       $('#start').hide();
       $('#opatovnyStart').show();
+      animation.startuj(); 
     }
 
     return this;
