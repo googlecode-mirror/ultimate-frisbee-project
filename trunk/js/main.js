@@ -13,6 +13,7 @@ function Start()
    $('#vyberTimov').show();
    $('#tlacidlo').hide();
    $('#editZmena').hide();
+   $('#sliderHraca').hide();
    
    $('#opatovnyStart').unbind('click').click(function(){
         animation.run();
@@ -49,7 +50,14 @@ function Start()
   $('#lopta').unbind('click').click(function(){
  animation.mozeIstDalej("white");
   });
- 
- 
+
+  $( ".slider" ).slider(
+  {
+   create: function(event, ui) { animation.posuvnik(false);}
+  });
+  
+   $( ".sliderHraca" ).slider();
+   $( "#sliderPohybu" ).slider();
+      
 
 }

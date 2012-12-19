@@ -1,5 +1,5 @@
  <?php
-    if ($handle = opendir('drills')) {
+    if ($handle = opendir('taktiky')) {
         $pocet = 0;
         while (false !== ($entry = readdir($handle))) {
             if ($entry != "." && $entry != "..") {

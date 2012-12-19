@@ -41,6 +41,19 @@ position: relative;
 #novy{
 width: 320px;
 }
+.slider{
+ margin-left:30px;
+ margin-right:30px;
+}
+
+.sliderHraca{
+ margin-left:50px;
+ margin-right:50px;
+}
+#sliderPohybu{
+ margin-left:30px;
+ margin-right:30px;
+}
 
 .line{
     padding:1px;
@@ -79,7 +92,7 @@ if(isset($_GET['drill'])){
    
      
      <?php
-     $filename = 'taktiky/'.$_GET['drill'].'.txt';
+    $filename = 'taktiky/'.$_GET['drill'].'.txt';
      chmod($filename,0444);
      $fh = fopen($filename,'r');
      $stringData = fread($fh,filesize($filename));
@@ -118,8 +131,12 @@ if(isset($_GET['drill'])){
     
 <div id="vyberTimov">
 <h3> Nastavenie animacie</h3>
+<div id="zobraz">
  <label for="dlzkaCyklu">Zvol dlzku cyklu pre celu animaciu: </label>
 <input  name="dlzkaCyklu" type="text" size="5" maxlength="5" id="dlzkaCyklu" value="" /> ms
+</div>
+
+<div class="slider" ></div>
 
 <h3> Moznosti vyberu hracov a lopty: </h3>
 <h4> Stlac ak ma patrit do prveho timu: </h4>
@@ -134,7 +151,11 @@ if(isset($_GET['drill'])){
 
 <h1>Nastavenia hraca</h1>
   <label for="dlzkaPohybu">Zvol dlzku cyklu pre daneho hraca: </label>
-  <input  name="dlzkaPohybu" type="text" size="5" maxlength="5" id="dlzkaPohybu" value="" /> ms  <br/><br/>
+  <input  name="dlzkaPohybu" type="text" size="5" maxlength="5" id="dlzkaPohybu" value="" /> ms  <br/>
+  
+  <div class="sliderHraca" ></div>
+  
+  <br/>
     <p>Klik na ihrisko</p>
           <label for="x-os">x: </label>  
                 <input name="x-os" type="text" size="7" maxlength="3" id="x-os" value="" /> <br/>
@@ -153,8 +174,9 @@ if(isset($_GET['drill'])){
                 <input name="xx" type="text" size="5" maxlength="3" id="xx" value="" />
                 <label for="yy">y: </label>
                 <input name="yy" type="text" size="5" maxlength="3" id="yy" value="" />  <br/>
-                <label for="tt">Cas za kolko ms tam ma byt: </label>
-                <input name="tt" type="text" size="5" maxlength="5" id="tt" value="" /> ms
+                <label for="tt">Cas za kolko tam ma byt: </label>
+                <input name="tt" type="text" size="5" maxlength="5" id="tt" value="" /> ms <br />
+                <div id="sliderPohybu"></div>
          </div>
  
   <button class="potvrdPohyb">ULOZ!</button>  |  

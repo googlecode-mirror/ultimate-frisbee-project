@@ -6,7 +6,9 @@ var tt_pom = 0;
 var kde = 0;
 var nakres = 0;
 var nakresPohybu = 0; 
-var limit = 0;   
+var limit = 10000; 
+var bool = true;
+var valueLimit=0;   
 
 function animation()
 {
@@ -17,26 +19,124 @@ function animation()
  hraci.push(hrac);
  }
  
+ this.posuvnikPohybu = function(kto){
+  $( "#sliderPohybu" ).slider({ max: kto.interval });
+        $( "#sliderPohybu" ).slider({ min: 500 });
+        $( "#sliderPohybu" ).slider({ step: 500 });  
+        $( "#sliderPohybu" ).slider({ value: kto.interval }); 
+         $("#tt").val(kto.interval);
+         
+ $( "#sliderPohybu" ).slider({
+    slide: function( event, ui ){
+      $("#tt").val(ui.value);
+    }
+});
+         
+ $( "#sliderPohybu" ).slider({
+    change: function( event, ui ){
+      $("#tt").val(ui.value);
+    }
+});
+ }
+ 
+  this.posuvnikHraca = function(je,kto){
+  $( ".sliderHraca" ).slider({ max: limit });
+        $( ".sliderHraca" ).slider({ min: 500 });
+        $( ".sliderHraca" ).slider({ step: 500 });  
+         
+  
+         if(je){ 
+         $( ".sliderHraca" ).slider({ value: kto.interval });
+         $( "#hracInterval" ).val(kto.interval);
+        }else{
+          $(".sliderHraca" ).slider({ value: limit });
+          $("#dlzkaPohybu").val(limit);
+        }
+         
+ $( ".sliderHraca" ).slider({
+    slide: function( event, ui ){
+      if(je){ $( "#hracInterval" ).val(ui.value);
+        }else{
+          $("#dlzkaPohybu").val(ui.value);
+        }
+    }
+});
+         
+ $( ".sliderHraca" ).slider({
+    change: function( event, ui ){
+      
+      if(je){ $( "#hracInterval" ).val(ui.value);
+        }else{
+          $("#dlzkaPohybu").val(ui.value);
+        }
+    }
+});
+ }
+ 
+ this.posuvnik = function(je){
+  $( ".slider" ).slider({ max: 100000 });
+        $( ".slider" ).slider({ min: 2000 });
+        $( ".slider" ).slider({ step: 500 });  
+        $( ".slider" ).slider({ value: limit }); 
+        if(je){ $( "#zmenLimit" ).val(limit);
+        }else{
+         $( "#dlzkaCyklu" ).val(limit);
+        } 
+ $( ".slider" ).slider({
+    slide: function( event, ui ){
+      if(je){  $( "#zmenLimit" ).val(ui.value);
+        }else{
+         $( "#dlzkaCyklu" ).val(ui.value);
+         limit = $( ".slider" ).slider( "option", "value" );
+        } 
+    }
+});
+
+$( ".slider" ).slider({
+    change: function( event, ui ){
+      if(je){  $( "#zmenLimit" ).val(ui.value);
+        }else{
+         $( "#dlzkaCyklu" ).val(ui.value);
+          limit = $( ".slider" ).slider( "option", "value" );
+        } 
+    }
+});
+ }
+ 
 this.zmenNastavenia = function(){  
  $('#zmenPridajHraca').hide();
  $('#zmenVymazHraca').hide();
  $('#vyberNovehoHraca').hide();
   $('#zmenPridajPohyb').hide(); 
+  $('#uprava').show();
  
  $('#editAnimacie').click(function(){
     $('#uprava').html('<div class="zmenaHraca"></div><div class="player-detail"></div>');
-    $('.zmenaHraca').append('Zmen dlzku animacie: <input id="zmenLimit" value="'+limit+'"></input> <br/>')
+    $('.zmenaHraca').append('Zmen dlzku animacie: <input id="zmenLimit" value="'+limit+'"></input> <br/>');
+    $('.zmenaHraca').append('<div class="slider"></div> <br/>');
+    
+    $( ".slider" ).slider(
+  {
+   create: function(event, ui) { animation.posuvnik(true);}
+  });
+  
     for(var i in hraci){
       $('.zmenaHraca').append('<button class="edit-player" playerid="'+i+'">'+i+"</button> ");
       hraci[i].getElement().html(i);
     }
     $('#zmenPridajHraca').show(); 
     $('#editZmena').show();
-   animation.zmenHraca(); 
+    $('#uprava').show();
+   animation.zmenHraca();
  });
  
   $('#zmenPridajHraca').click(function(){
-   // $('#zmenPridajHraca').hide();  
+    $('#zmenPridajHraca').hide(); 
+    $('#zmenVymazHraca').hide();
+    $('#zmenPridajPohyb').hide();
+    $('#editZmena').hide();
+    $('#uprava').hide();
+   bool = false; 
     $('#vyberNovehoHraca').show(); 
   });
 }
@@ -62,37 +162,42 @@ $('button.edit-player').click(function(){
  animation.kreslenieCiary('a','b','c','d','e','f');
  $('#zmenVymazHraca').show();
  $('#zmenPridajPohyb').show();
- 
  menenyHrac = hraci[$(this).attr('playerid')]; 
  animation.vykresliPohyby(menenyHrac); 
   var html ='';  
-    html += 'Zmen dlzku animacie hraca: <input id="hracInterval" value="'+menenyHrac.interval+'"><br/>';
+    html += 'Zmen dlzku animacie hraca: <input id="hracInterval" value=""><br/>';
+    
+    html +=('<div class="sliderHraca"></div> <br/>');  
   for(j in menenyHrac.points){
      
      var wp = menenyHrac.points[j];
         html += '<input class="x'+j+'" value="'+wp.x+'"></input>:<input class="y'+j+'" value="'+wp.y+'"></input>';
-        html += '<input class="t'+j+'" value="'+wp.t+'"><input type="button" id="'+menenyHrac.id+j+'" class="remove" value="'+menenyHrac.id+j+'" / ><br/>';
+        html += '<input class="t'+j+'" value="'+wp.t+'"><input type="button" id="'+menenyHrac.id+j+'" class="remove" value="REMOVE" / ><br/>';
         
     if(j < menenyHrac.points.length - 1){     
       animation.kreslenieCiary(menenyHrac.points[j].x,menenyHrac.points[j].y,menenyHrac.points[parseInt(j)+parseInt(1)].x,menenyHrac.points[parseInt(j)+parseInt(1)].y,menenyHrac.points[parseInt(j)+parseInt(1)].t,menenyHrac.farba);           
     }
   }
  $('.player-detail').html(html); 
+ $( ".sliderHraca" ).slider(
+  {
+   create: function(event, ui) {  animation.posuvnikHraca(true,menenyHrac);}
+  });
 
  
  $('.remove').each(function(index) {
     $('#'+menenyHrac.id+index+'').click(function(){
-     alert($('#'+menenyHrac.id+index+'').val());
      menenyHrac.points.splice(index,1);
      
      animation.kreslenieCiary('a','b','c','d','e','f');
           animation.vykresliPohyby(menenyHrac); 
           var html ='';  
            html += 'Zmen dlzku animacie hraca: <input id="hracInterval" value="'+menenyHrac.interval+'"><br/>';
+           html += '<div class="slider"></div>';
             for(j in menenyHrac.points){
               var wp = menenyHrac.points[j];
                   html += '<input class="x'+j+'" value="'+wp.x+'"></input>:<input class="y'+j+'" value="'+wp.y+'"></input>';
-                  html += '<input class="t'+j+'" value="'+wp.t+'"><br/>';
+                  html += '<input class="t'+j+'" value="'+wp.t+'"><input type="button" id="'+wp.id+j+'" class="remove" value="REMOVE" / ><br/>';
         
               if(j < menenyHrac.points.length - 1){     
                 animation.kreslenieCiary(menenyHrac.points[j].x,menenyHrac.points[j].y,menenyHrac.points[parseInt(j)+parseInt(1)].x,menenyHrac.points[parseInt(j)+parseInt(1)].y,menenyHrac.points[parseInt(j)+parseInt(1)].t,menenyHrac.farba);           
@@ -102,14 +207,16 @@ $('button.edit-player').click(function(){
      
     });
 });
+  
+ });
  
-  $('#zmenVymazHraca').click(function(){ 
+$('#zmenVymazHraca').click(function(){ 
     animation.vymazHraca(menenyHrac);
     menenyHrac = '';
-    $('#zmenVymazHraca').hide(); 
-  });
-  
-  $('#zmenPridajPohyb').click(function(){
+    $('#zmenVymazHraca').hide();
+  });  
+ 
+$('#zmenPridajPohyb').click(function(){
    $('#editNastavenia').show();
   $('#form1').hide();
    $('#pridavanie').hide();
@@ -125,9 +232,7 @@ $('button.edit-player').click(function(){
    animation.zmenPridajPohybFunkcia(menenyHrac); 
    menenyHrac = '';
  $('#zmenPridajPohyb').hide();
-});
- 
- }); 
+}); 
  
 $('#editZmena').click(function(){ 
  if(limit != $('#zmenLimit').val()){
@@ -136,15 +241,16 @@ $('#editZmena').click(function(){
   animation.zmenHodnotyVPoli(menenyHrac);
   }
 }); 
-
+menenyHrac ='';
 }
 
 this.zmenPridajPohybFunkcia = function(kto){
   for(var i in hraci){
-    if(hraci[i].id == kto.id){
+    if(hraci[i] == kto){
+    animation.posuvnikPohybu(kto);
+    $('.potvrdPohyb').attr("disabled", false); 
       $('.potvrdPohyb').click(function(){
         if($('#xx').val() > 0 && $('#yy').val() > 0 && $('#tt').val() > 0 && $('#tt').val() <= kto.interval){
-          alert($('#tt').val());
           kto.addPoint($('#xx').val(),$('#yy').val(),$('#tt').val());
           
           animation.kreslenieCiary('a','b','c','d','e','f');
@@ -153,7 +259,7 @@ this.zmenPridajPohybFunkcia = function(kto){
             for(j in kto.points){
               var wp = kto.points[j];
                   html += '<input class="x'+j+'" value="'+wp.x+'"></input>:<input class="y'+j+'" value="'+wp.y+'"></input>';
-                  html += '<input class="t'+j+'" value="'+wp.t+'"><br/>';
+                  html += '<input class="t'+j+'" value="'+wp.t+'"><input type="button" id="'+wp.id+j+'" class="remove" value="REMOVE" / ><br/>';
         
               if(j < kto.points.length - 1){     
                 animation.kreslenieCiary(kto.points[j].x,kto.points[j].y,kto.points[parseInt(j)+parseInt(1)].x,kto.points[parseInt(j)+parseInt(1)].y,kto.points[parseInt(j)+parseInt(1)].t,kto.farba);           
@@ -170,10 +276,10 @@ this.zmenPridajPohybFunkcia = function(kto){
             $('#zmenPridajHraca').show();
            kde = 2;
            $(".nakresPohybu").remove();
-        }else{
-         alert('Zadal si zle vstupy, t musi byt mensie ako hracova dlzka animacie!');
+           kto = '';
         }
       });
+    
     }
   }
 }
@@ -191,6 +297,9 @@ this.vymazHraca = function(kto){
     }
     var ide = '#' + hraci.length;
      $(ide).remove();
+     animation.kreslenieCiary('a','b','c','d','e','f');
+     animation.vykresliPohyby(" "); 
+     
     animation.draw();      
     
     $('#uprava').html('<div class="zmenaHraca"></div><div class="player-detail"></div>');
@@ -199,7 +308,11 @@ this.vymazHraca = function(kto){
      $('.zmenaHraca').append('<button class="edit-player" playerid="'+j+'">'+j+"</button> ");
       hraci[j].getElement().html(j);
     }
-     animation.zmenHraca(); 
+    $('#zmenVymazHraca').hide();
+     $('#uprava').hide(); 
+     $('#zmenPridajPohyb').hide();
+     $('#editZmena').hide();
+     $('#zmenPridajHraca').hide();    
   }
  }
 }
@@ -328,6 +441,7 @@ if(kto == 'limit'){
  this.hrac = function(color,cislo){
   limit = cislo;
     $('#pridavanie').show();
+    $('.sliderHraca').show();
     //vymazanie premennych
     $('#x-os').val('');
     $('#y-os').val(''); 
@@ -335,6 +449,8 @@ if(kto == 'limit'){
         $('#yy').val('');
         $('#tt').val('');
         $('#dlzkaPohybu').val('');
+        
+    animation.posuvnikHraca(false,'');
      
      kde = 0; 
     $('#tlacidlo').html('POTVRD POZICIU');
@@ -346,7 +462,7 @@ if(kto == 'limit'){
       }else{
          alert("Zadaj spravne dlzku pohybu, musi byt mensia ako dlzka animacie!" + limit);
       }
-     
+      $('.sliderHraca').hide();
     });
   }
   
@@ -358,6 +474,8 @@ if(kto == 'limit'){
           
     animation.draw();
     
+    animation.posuvnikPohybu(hraci[hraci.length - 1]);
+    
     kde =1;
     $('#pridavaniePohybu').show();
     $('#pohyboveTlacidlo').attr("disabled", true);
@@ -366,8 +484,9 @@ if(kto == 'limit'){
       pom = 0;
         $('#xx').val('');
         $('#yy').val('');
-        $('#tt').val('');
-        $('h5').after('<div class="novyy"> <label for="xxx">x: </label>  <input name="xxx" type="text" size="7" maxlength="3" id="xxx" value='+xx_pom +' /><label for="yyy">y: </label><input name="yyy" type="text" size="7" maxlength="3" id="yyy" value='+yy_pom +' /> <br/><label for="ttt">Cas za kolko ms tam ma byt:</label> <input name="ttt" type="text" size="7" maxlength="3" id="ttt" value='+tt_pom +' /> </div>');
+       // $('#tt').val('');
+        
+        $('h5').after('<div class="novyy"> <label for="xxx">x: </label>  <input name="xxx" type="text" size="7" maxlength="3" id="xxx" value='+xx_pom +' /><label for="yyy">y: </label><input name="yyy" type="text" size="7" maxlength="3" id="yyy" value='+yy_pom +' /> <br/><label for="ttt">Cas za kolko sekund tam ma byt:</label> <input name="ttt" type="text" size="7" maxlength="3" id="ttt" value='+tt_pom +' /> </div>');
         $('.potvrdPohyb').attr("disabled", false); 
         $('#pohyboveTlacidlo').attr("disabled", true);
       }  
@@ -447,17 +566,24 @@ if(kto == 'limit'){
     pom=0;
     $('#tlacidlo').hide();
     
-    if($('#zmenPridajHraca').show()){
-     alert("velkost pola: " + hraci.length);
+    if(bool == false){
      var kolko= hraci.length - 1;
       $('.zmenaHraca').append('<button class="edit-player" playerid="'+kolko+'">'+ kolko+'</button>');
       for(var j in hraci){
        hraci[j].getElement().html(j);
       }      
-      animation.zmenHraca();  
+       $('#uprava').hide();
+       $('#editZmena').hide(); 
+       $('#zmenPridajHraca').hide();
+       $('#zmenPridajPohyb').hide();
       $('#form1').show();
+      $(this).stop(); 
+      bool = true;
     }else{
+      $('#editNastavenia').show();
       $('#vyberTimov').show();
+      $('#zobraz').hide();
+      $('#slider').hide();
       $('#form1').show();
    }
    
@@ -542,14 +668,10 @@ this.mozeIstDalej = function(sfarbenie){
       animation.pos();
       animation.hrac(sfarbenie,limit); 
   }else{
-    if($('#dlzkaCyklu').val() > 1999) {
       $('#tlacidlo').show();
       $('#vyberTimov').hide();
       animation.pos();
       animation.hrac(sfarbenie,$('#dlzkaCyklu').val());  
-      } else {
-     alert("Zadal si zly vstup na dlzke animacie! Dlzka musi byt vacsia ako 2000!");
-    }
   } 
 }
  
