@@ -43,7 +43,7 @@ width: 320px;
 }
 
 .line{
-    padding;1px;
+    padding:1px;
   }
 </style>
 </head>
@@ -58,7 +58,7 @@ width: 320px;
 if (isset($_POST["save"]) && isset($_POST["pom"]) && isset($_POST["saveFileName"])){
     $_GET['drill'] = $_POST["saveFileName"];   
     $text = $_POST["pom"];
-    $myFile = "drills/".$_POST["saveFileName"].".txt";
+    $myFile = "taktiky/".$_POST["saveFileName"].".txt";
     chmod($myFile,0444);
     $fh = fopen($myFile, 'w') or die("can't open file");
     fwrite($fh, $text);
@@ -79,7 +79,7 @@ if(isset($_GET['drill'])){
    
      
      <?php
-     $filename = 'drills/'.$_GET['drill'].'.txt';
+     $filename = 'taktiky/'.$_GET['drill'].'.txt';
      chmod($filename,0444);
      $fh = fopen($filename,'r');
      $stringData = fread($fh,filesize($filename));
