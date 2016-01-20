@@ -1,0 +1,1 @@
+Simulácia herných situácií v ultimate frisbee
